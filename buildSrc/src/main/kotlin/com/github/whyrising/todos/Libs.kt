@@ -9,11 +9,6 @@ object Libs {
     }
 
     object Androidx {
-        object Core {
-            private const val version = "1.7.0"
-            const val coreKtx = "androidx.core:core-ktx:$version"
-        }
-
         object Appcompat {
             private const val version = "1.4.1"
             const val appcompat = "androidx.appcompat:appcompat:1.4.1"
@@ -21,7 +16,28 @@ object Libs {
 
         object Constraint {
             private const val version = "2.1.3"
-            const val constrainLayout = "androidx.constraintlayout:constraintlayout:$version"
+            const val constrainLayout =
+                "androidx.constraintlayout:constraintlayout:$version"
+        }
+
+        object Core {
+            private const val version = "1.7.0"
+            const val coreKtx = "androidx.core:core-ktx:$version"
+        }
+
+        object Fragment {
+            private const val version = "1.4.1"
+            const val fragmentKtx = "androidx.fragment:fragment-ktx:$version"
+        }
+
+        object Legacy {
+            private const val version = "1.0.0"
+            const val support = "androidx.legacy:legacy-support-v4:$version"
+        }
+
+        object RecyclerView {
+            private const val version = "1.2.1"
+            const val recycler = "androidx.recyclerview:recyclerview:$version"
         }
 
         object Test {
@@ -29,7 +45,8 @@ object Libs {
             const val core = "androidx.test:core:$version"
             const val coreKtx = "androidx.test:core-ktx:$version"
             const val rules = "androidx.test:rules:$version"
-            const val espressoCore = "androidx.test.espresso:espresso-core:3.4.0"
+            const val espressoCore =
+                "androidx.test.espresso:espresso-core:3.4.0"
         }
     }
 

@@ -48,6 +48,9 @@ android {
             useJUnitPlatform()
         }
     }
+    buildFeatures {
+        viewBinding true
+    }
 }
 
 dependencies {
@@ -55,6 +58,9 @@ dependencies {
     implementation Libs.Androidx.Appcompat.appcompat
     implementation Libs.Androidx.Constraint.constrainLayout
     implementation Libs.Material.material
+    implementation Libs.Androidx.Fragment.fragmentKtx
+    implementation Libs.Androidx.Legacy.support
+    implementation Libs.Androidx.RecyclerView.recycler
 
     testImplementation Libs.Kotest.runner
     androidTestImplementation(Libs.Kotest.runner) {
