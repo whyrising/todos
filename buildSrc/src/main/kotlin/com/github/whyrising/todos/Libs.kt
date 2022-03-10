@@ -30,6 +30,16 @@ object Libs {
             const val fragmentKtx = "androidx.fragment:fragment-ktx:$version"
         }
 
+        object Legacy {
+            private const val version = "1.0.0"
+            const val support = "androidx.legacy:legacy-support-v4:$version"
+        }
+
+        object RecyclerView {
+            private const val version = "1.2.1"
+            const val recycler = "androidx.recyclerview:recyclerview:$version"
+        }
+
         object Test {
             private const val version = "1.4.0"
             const val core = "androidx.test:core:$version"
