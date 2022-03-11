@@ -8,14 +8,15 @@ object GatewayMock : UsersGateway {
 
     init {
         for (i in 1..COUNT)
-            addItem(createPlaceholderItem())
+            addItem(createPlaceholderItem(i))
     }
 
     private fun addItem(user: User) {
         USERS.add(user)
     }
 
-    private fun createPlaceholderItem(): User = User(
+    private fun createPlaceholderItem(index: Int): User = User(
+        id = "$index",
         name = "John Doe",
         username = "#johndoe",
         email = "johndoe@example.com"
