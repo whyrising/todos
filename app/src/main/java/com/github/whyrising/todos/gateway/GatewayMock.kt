@@ -1,6 +1,6 @@
 package com.github.whyrising.todos.gateway
 
-import com.github.whyrising.todos.presentation.User
+import kotlinx.coroutines.delay
 
 object GatewayMock : UsersGateway {
     private val USERS: MutableList<User> = ArrayList()
@@ -18,9 +18,12 @@ object GatewayMock : UsersGateway {
     private fun createPlaceholderItem(index: Int): User = User(
         id = "$index",
         name = "John Doe",
-        username = "#johndoe",
+        username = "johndoe",
         email = "johndoe@example.com"
     )
 
-    override suspend fun fetchUsers(): List<User> = USERS
+    override suspend fun fetchUsers(): List<User> {
+        delay(1000)
+        return USERS
+    }
 }

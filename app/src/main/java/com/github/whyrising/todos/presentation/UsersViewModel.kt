@@ -6,9 +6,9 @@ import androidx.lifecycle.liveData
 import com.github.whyrising.todos.gateway.UsersGateway
 
 class UsersViewModel(gateway: UsersGateway) : ViewModel() {
-    val users: LiveData<List<User>> by lazy {
+    val users: LiveData<List<UserViewModel>> by lazy {
         liveData {
-            emit(gateway.fetchUsers())
+            emit(gateway.fetchUsers().map { UserViewModel(it) })
         }
     }
 }
