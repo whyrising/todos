@@ -20,9 +20,9 @@ private class UserDiffCallback : DiffUtil.ItemCallback<UserViewModel>() {
     ): Boolean = oldItem == newItem
 }
 
-class UserAdapter : ListAdapter<UserViewModel, UserAdapter.ViewHolder>(
-    UserDiffCallback()
-) {
+class UserAdapter(
+    onUsesSelected: (UserViewModel) -> Unit
+) : ListAdapter<UserViewModel, UserAdapter.ViewHolder>(UserDiffCallback()) {
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -40,6 +40,10 @@ class UserAdapter : ListAdapter<UserViewModel, UserAdapter.ViewHolder>(
     inner class ViewHolder(
         private val binding: UserItemBinding
     ) : RecyclerView.ViewHolder(binding.root) {
+        init {
+//            binding.setCli
+        }
+
         /**
          * Bind a [UserViewModel] item to UI through [UserItemBinding].
          * @param user item to bind.

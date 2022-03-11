@@ -68,11 +68,6 @@ object Libs {
         }
     }
 
-    object Material {
-        private const val version = "1.5.0"
-        const val material = "com.google.android.material:material:$version"
-    }
-
     object Coroutines {
         private const val group = "org.jetbrains.kotlinx"
         private const val version = "1.6.0"
@@ -88,5 +83,15 @@ object Libs {
         const val runner = "io.kotest:kotest-runner-junit5:$version"
         const val assertions = "io.kotest:kotest-assertions-core-jvm:$version"
         const val property = "io.kotest:kotest-property:$version"
+    }
+
+    object Kotlinx {
+        private const val version = "0.17.1"
+        const val atomicfu = "org.jetbrains.kotlinx:atomicfu:$version"
+    }
+
+    object Material {
+        private const val version = "1.5.0"
+        const val material = "com.google.android.material:material:$version"
     }
 }
