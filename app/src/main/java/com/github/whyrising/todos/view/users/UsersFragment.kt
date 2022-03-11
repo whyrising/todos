@@ -18,16 +18,15 @@ class UsersFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View = FragmentUsersListBinding.inflate(inflater, container, false).let {
-        when (container) {
-            null -> it.root
-            else -> {
-                val adapter = UserAdapter()
-                it.usersList.adapter = adapter
-                vm.users.observe(viewLifecycleOwner) { users ->
-                    adapter.submitList(users)
-                }
-                it.root
+        if (container != null) {
+            val adapter = UserAdapter {
+                // TODO: set selected user in VM.
+            }
+            it.usersList.adapter = adapter
+            vm.users.observe(viewLifecycleOwner) { users ->
+                adapter.submitList(users)
             }
         }
+        it.root
     }
 }
