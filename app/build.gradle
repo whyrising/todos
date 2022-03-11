@@ -4,10 +4,11 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'org.jetbrains.kotlin.kapt'
+    id 'androidx.navigation.safeargs.kotlin'
 }
 
 android {
-    compileSdk 32
+    compileSdk 31 // TODO: update to 32 when sources for API 32 are available.
 
     defaultConfig {
         applicationId "com.github.whyrising.todos"
@@ -58,7 +59,7 @@ dependencies {
     implementation Libs.Androidx.Appcompat.appcompat
     implementation Libs.Androidx.Constraint.constrainLayout
     implementation Libs.Material.material
-    
+
     implementation Libs.Androidx.Fragment.fragmentKtx
 
     implementation Libs.Androidx.Legacy.support
@@ -69,6 +70,16 @@ dependencies {
     implementation Libs.Androidx.Lifecycle.runtime
     implementation Libs.Androidx.Lifecycle.vmSavedState
     implementation Libs.Androidx.Lifecycle.common
+
+//    implementation Libs.Coroutines.core
+//    implementation Libs.Coroutines.android
+
+    implementation Libs.Kotlinx.atomicfu
+
+    implementation Libs.Androidx.Navigation.fragment
+    implementation Libs.Androidx.Navigation.ui
+    implementation Libs.Androidx.Navigation.feature
+    implementation 'com.google.android.material:material:1.5.0'
 
     testImplementation Libs.Kotest.runner
     androidTestImplementation(Libs.Kotest.runner) {

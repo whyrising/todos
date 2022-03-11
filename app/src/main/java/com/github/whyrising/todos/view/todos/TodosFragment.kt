@@ -1,4 +1,4 @@
-package com.github.whyrising.todos.view.users
+package com.github.whyrising.todos.view.todos
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,25 +6,23 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import com.github.whyrising.todos.databinding.FragmentUsersListBinding
+import com.github.whyrising.todos.databinding.FragmentTodosListBinding
 import com.github.whyrising.todos.presentation.UsersViewModel
 import com.github.whyrising.todos.view.VmFactory
 
-class UsersFragment : Fragment() {
+class TodosFragment : Fragment() {
     private val vm: UsersViewModel by activityViewModels { VmFactory }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View = FragmentUsersListBinding.inflate(inflater, container, false).let {
+    ): View = FragmentTodosListBinding.inflate(inflater, container, false).let {
         if (container != null) {
-            val adapter = UserAdapter { user ->
-                vm.setSelectedUser(user)
-            }
-            it.usersList.adapter = adapter
-            vm.users.observe(viewLifecycleOwner) { users ->
-                adapter.submitList(users)
+            val adapter = TodoAdapter()
+            it.todosList.adapter = adapter
+            vm.userTodos.observe(viewLifecycleOwner) { todos ->
+                adapter.submitList(todos)
             }
         }
         it.root

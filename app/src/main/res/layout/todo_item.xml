@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/card_todo_side_margin"
+    android:layout_marginTop="@dimen/card_todo_top_margin"
+    android:layout_marginEnd="@dimen/card_todo_side_margin"
+    android:layout_marginBottom="@dimen/card_todo_bottom_margin"
+    app:cardElevation="@dimen/card_todo_elevation"
+    app:cardPreventCornerOverlap="false">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="@dimen/todo_item_padding">
+
+    </LinearLayout>
+    <CheckBox
+        android:id="@+id/task"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checked="true"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry." />
+</com.google.android.material.card.MaterialCardView>

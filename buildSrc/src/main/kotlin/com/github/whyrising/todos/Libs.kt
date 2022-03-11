@@ -53,6 +53,15 @@ object Libs {
             const val testLiveData = "androidx.arch.core:core-testing:$version"
         }
 
+        object Navigation {
+            const val version = "2.4.1"
+            private const val gr = "androidx.navigation"
+            const val fragment = "$gr:navigation-fragment-ktx:$version"
+            const val ui = "$gr:navigation-ui-ktx:$version"
+            const val feature =
+                "$gr:navigation-dynamic-features-fragment:$version"
+        }
+
         object RecyclerView {
             private const val version = "1.2.1"
             const val recycler = "androidx.recyclerview:recyclerview:$version"
@@ -66,11 +75,6 @@ object Libs {
             const val espressoCore =
                 "androidx.test.espresso:espresso-core:3.4.0"
         }
-    }
-
-    object Material {
-        private const val version = "1.5.0"
-        const val material = "com.google.android.material:material:$version"
     }
 
     object Coroutines {
@@ -88,5 +92,15 @@ object Libs {
         const val runner = "io.kotest:kotest-runner-junit5:$version"
         const val assertions = "io.kotest:kotest-assertions-core-jvm:$version"
         const val property = "io.kotest:kotest-property:$version"
+    }
+
+    object Kotlinx {
+        private const val version = "0.17.1"
+        const val atomicfu = "org.jetbrains.kotlinx:atomicfu:$version"
+    }
+
+    object Material {
+        private const val version = "1.5.0"
+        const val material = "com.google.android.material:material:$version"
     }
 }

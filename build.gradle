@@ -1,4 +1,15 @@
 import com.github.whyrising.todos.Libs
+import com.github.whyrising.todos.Plugins
+
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        classpath Plugins.Navigation.safeArgs
+    }
+}
 
 plugins {
     id 'com.android.application' version '7.1.2' apply false

@@ -1,5 +1,6 @@
 package com.github.whyrising.todos.gateway
 
 interface UsersGateway {
-    suspend fun fetchUsers(): List<User>
+    suspend fun users(): List<User>
+    suspend fun todosBy(user: User): List<Todo>
 }
