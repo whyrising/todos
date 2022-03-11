@@ -58,9 +58,17 @@ dependencies {
     implementation Libs.Androidx.Appcompat.appcompat
     implementation Libs.Androidx.Constraint.constrainLayout
     implementation Libs.Material.material
+    
     implementation Libs.Androidx.Fragment.fragmentKtx
+
     implementation Libs.Androidx.Legacy.support
     implementation Libs.Androidx.RecyclerView.recycler
+
+    implementation Libs.Androidx.Lifecycle.vmKtx
+    implementation Libs.Androidx.Lifecycle.liveData
+    implementation Libs.Androidx.Lifecycle.runtime
+    implementation Libs.Androidx.Lifecycle.vmSavedState
+    implementation Libs.Androidx.Lifecycle.common
 
     testImplementation Libs.Kotest.runner
     androidTestImplementation(Libs.Kotest.runner) {

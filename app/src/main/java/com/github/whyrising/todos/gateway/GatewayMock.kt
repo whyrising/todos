@@ -1,9 +1,9 @@
-package com.github.whyrising.todos.view.placeholder
+package com.github.whyrising.todos.gateway
 
-import com.github.whyrising.todos.vm.User
+import com.github.whyrising.todos.presentation.User
 
-object PlaceholderContent {
-    val USERS: MutableList<User> = ArrayList()
+object GatewayMock : UsersGateway {
+    private val USERS: MutableList<User> = ArrayList()
     private const val COUNT = 25
 
     init {
@@ -20,4 +20,6 @@ object PlaceholderContent {
         username = "#johndoe",
         email = "johndoe@example.com"
     )
+
+    override suspend fun fetchUsers(): List<User> = USERS
 }

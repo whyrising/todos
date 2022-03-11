@@ -5,30 +5,29 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.github.whyrising.todos.R
-import com.github.whyrising.todos.view.placeholder.PlaceholderContent
+import androidx.fragment.app.activityViewModels
+import com.github.whyrising.todos.databinding.FragmentUsersListBinding
+import com.github.whyrising.todos.presentation.UsersViewModel
+import com.github.whyrising.todos.view.VmFactory
 
 class UsersFragment : Fragment() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
+    private val vm: UsersViewModel by activityViewModels { VmFactory }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        val view =
-            inflater.inflate(R.layout.fragment_users_list, container, false)
-
-        if (view is RecyclerView) {
-            with(view) {
-                layoutManager = LinearLayoutManager(context)
-                adapter = UserRecyclerViewAdapter(PlaceholderContent.USERS)
+    ): View = FragmentUsersListBinding.inflate(inflater, container, false).let {
+        when (container) {
+            null -> it.root
+            else -> {
+                val adapter = UserAdapter()
+                it.usersList.adapter = adapter
+                vm.users.observe(viewLifecycleOwner) { users ->
+                    adapter.submitList(users)
+                }
+                it.root
             }
         }
-        return view
     }
 }

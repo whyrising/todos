@@ -1,4 +1,4 @@
-package com.github.whyrising.todos.vm
+package com.github.whyrising.todos.presentation
 
 data class User(
     val name: String,
