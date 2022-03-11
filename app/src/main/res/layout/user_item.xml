@@ -5,10 +5,10 @@
     android:id="@+id/card"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="@dimen/card_side_margin"
-    android:layout_marginTop="@dimen/card_top_margin"
-    android:layout_marginEnd="@dimen/card_side_margin"
-    android:layout_marginBottom="@dimen/card_bottom_margin"
+    android:layout_marginStart="@dimen/card_user_side_margin"
+    android:layout_marginTop="@dimen/card_user_top_margin"
+    android:layout_marginEnd="@dimen/card_user_side_margin"
+    android:layout_marginBottom="@dimen/card_user_bottom_margin"
     app:cardElevation="@dimen/card_user_elevation"
     app:cardPreventCornerOverlap="false">
 

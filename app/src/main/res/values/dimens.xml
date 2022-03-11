@@ -3,7 +3,12 @@
     <dimen name="user_item_padding">16dp</dimen>
     <dimen name="todo_item_padding">8dp</dimen>
     <dimen name="card_user_elevation">2dp</dimen>
-    <dimen name="card_top_margin">8dp</dimen>
-    <dimen name="card_side_margin">12dp</dimen>
-    <dimen name="card_bottom_margin">24dp</dimen>
+    <dimen name="card_user_top_margin">8dp</dimen>
+    <dimen name="card_user_side_margin">12dp</dimen>
+    <dimen name="card_user_bottom_margin">24dp</dimen>
+
+    <dimen name="card_todo_elevation">2dp</dimen>
+    <dimen name="card_todo_top_margin">8dp</dimen>
+    <dimen name="card_todo_side_margin">12dp</dimen>
+    <dimen name="card_todo_bottom_margin">12dp</dimen>
 </resources>
