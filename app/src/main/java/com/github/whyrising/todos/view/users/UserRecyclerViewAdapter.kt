@@ -2,43 +2,52 @@ package com.github.whyrising.todos.view.users
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.github.whyrising.todos.databinding.UserItemBinding
-import com.github.whyrising.todos.vm.User
+import com.github.whyrising.todos.presentation.User
 
-class UserRecyclerViewAdapter(
-    private val users: List<User>
-) : RecyclerView.Adapter<UserRecyclerViewAdapter.ViewHolder>() {
+private class UserDiffCallback : DiffUtil.ItemCallback<User>() {
+    override fun areItemsTheSame(oldItem: User, newItem: User): Boolean {
+        return oldItem.id == newItem.id
+    }
+
+    override fun areContentsTheSame(oldItem: User, newItem: User): Boolean {
+        return oldItem == newItem
+    }
+}
+
+class UserAdapter : ListAdapter<User, UserAdapter.ViewHolder>(
+    UserDiffCallback()
+) {
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): ViewHolder {
-        return ViewHolder(
-            UserItemBinding.inflate(
-                LayoutInflater.from(parent.context),
-                parent,
-                false
-            )
+    ): ViewHolder = ViewHolder(
+        UserItemBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
         )
-    }
+    )
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val (name, username, email) = users[position]
-        holder.name.text = name
-        holder.username.text = username
-        holder.email.text = email
-    }
-
-    override fun getItemCount(): Int = users.size
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) =
+        holder.bind(getItem(position))
 
     inner class ViewHolder(
-        binding: UserItemBinding
+        private val binding: UserItemBinding
     ) : RecyclerView.ViewHolder(binding.root) {
-        val name: TextView = binding.name
-        val username: TextView = binding.username
-        val email: TextView = binding.email
-
-        override fun toString(): String = "${super.toString()} ${name.text}"
+        /**
+         * Bind a [User] item to UI through [UserItemBinding].
+         * @param user item to bind.
+         */
+        fun bind(user: User) {
+            binding.also {
+                it.name.text = user.name
+                it.username.text = user.username
+                it.email.text = user.email
+            }
+        }
     }
 }

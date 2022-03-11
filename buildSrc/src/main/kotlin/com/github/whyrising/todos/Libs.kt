@@ -35,6 +35,24 @@ object Libs {
             const val support = "androidx.legacy:legacy-support-v4:$version"
         }
 
+        object Lifecycle {
+            private const val version = "2.4.1"
+
+            const val vmKtx =
+                "androidx.lifecycle:lifecycle-viewmodel-ktx:$version"
+            const val liveData =
+                "androidx.lifecycle:lifecycle-livedata-ktx:$version"
+            const val runtime =
+                "androidx.lifecycle:lifecycle-runtime-ktx:$version"
+            const val vmSavedState =
+                "androidx.lifecycle:lifecycle-viewmodel-savedstate:$version"
+            const val common =
+                "androidx.lifecycle:lifecycle-common-java8:$version"
+
+            // Test helpers for LiveData
+            const val testLiveData = "androidx.arch.core:core-testing:$version"
+        }
+
         object RecyclerView {
             private const val version = "1.2.1"
             const val recycler = "androidx.recyclerview:recyclerview:$version"
