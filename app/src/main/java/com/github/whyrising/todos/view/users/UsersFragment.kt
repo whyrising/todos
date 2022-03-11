@@ -19,8 +19,8 @@ class UsersFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View = FragmentUsersListBinding.inflate(inflater, container, false).let {
         if (container != null) {
-            val adapter = UserAdapter {
-                // TODO: set selected user in VM.
+            val adapter = UserAdapter { user ->
+                vm.setSelectedUser(user)
             }
             it.usersList.adapter = adapter
             vm.users.observe(viewLifecycleOwner) { users ->

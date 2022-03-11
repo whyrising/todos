@@ -53,6 +53,15 @@ object Libs {
             const val testLiveData = "androidx.arch.core:core-testing:$version"
         }
 
+        object Navigation {
+            const val version = "2.4.1"
+            private const val gr = "androidx.navigation"
+            const val fragment = "$gr:navigation-fragment-ktx:$version"
+            const val ui = "$gr:navigation-ui-ktx:$version"
+            const val feature =
+                "$gr:navigation-dynamic-features-fragment:$version"
+        }
+
         object RecyclerView {
             private const val version = "1.2.1"
             const val recycler = "androidx.recyclerview:recyclerview:$version"

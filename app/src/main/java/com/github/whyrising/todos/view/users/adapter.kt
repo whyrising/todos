@@ -2,6 +2,7 @@ package com.github.whyrising.todos.view.users
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -21,7 +22,7 @@ private class UserDiffCallback : DiffUtil.ItemCallback<UserViewModel>() {
 }
 
 class UserAdapter(
-    onUsesSelected: (UserViewModel) -> Unit
+    private val onUserSelected: (user: UserViewModel) -> Unit
 ) : ListAdapter<UserViewModel, UserAdapter.ViewHolder>(UserDiffCallback()) {
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -41,7 +42,12 @@ class UserAdapter(
         private val binding: UserItemBinding
     ) : RecyclerView.ViewHolder(binding.root) {
         init {
-//            binding.setCli
+            binding.card.setOnClickListener {
+                onUserSelected(getItem(bindingAdapterPosition))
+                val direction =
+                    UsersFragmentDirections.actionUsersFragmentToTodosFragment()
+                it.findNavController().navigate(direction)
+            }
         }
 
         /**
