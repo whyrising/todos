@@ -9,13 +9,11 @@ import com.github.whyrising.todos.databinding.UserItemBinding
 import com.github.whyrising.todos.presentation.User
 
 private class UserDiffCallback : DiffUtil.ItemCallback<User>() {
-    override fun areItemsTheSame(oldItem: User, newItem: User): Boolean {
-        return oldItem.id == newItem.id
-    }
+    override fun areItemsTheSame(oldItem: User, newItem: User): Boolean =
+        oldItem.id == newItem.id
 
-    override fun areContentsTheSame(oldItem: User, newItem: User): Boolean {
-        return oldItem == newItem
-    }
+    override fun areContentsTheSame(oldItem: User, newItem: User): Boolean =
+        oldItem == newItem
 }
 
 class UserAdapter : ListAdapter<User, UserAdapter.ViewHolder>(
