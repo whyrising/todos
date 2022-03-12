@@ -2,7 +2,6 @@ package com.github.whyrising.todos.view.users
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -44,9 +43,6 @@ class UserAdapter(
         init {
             binding.card.setOnClickListener {
                 onUserSelected(getItem(bindingAdapterPosition))
-                val direction =
-                    UsersFragmentDirections.actionUsersFragmentToTodosFragment()
-                it.findNavController().navigate(direction)
             }
         }
 
