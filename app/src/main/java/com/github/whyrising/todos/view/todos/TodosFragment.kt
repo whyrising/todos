@@ -20,20 +20,18 @@ class TodosFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        return FragmentTodosListBinding.inflate(inflater, container, false)
-            .let {
-                if (container != null) {
-                    vm.fetchTodos(args.userId)
-                    
-                    val adapter = TodoAdapter()
-                    it.todosList.adapter = adapter
-                    vm.userTodos.observe(viewLifecycleOwner) { todos ->
-                        Log.i("Todos#${args.userId}", "$todos")
-                        adapter.submitList(todos)
-                    }
+    ): View = FragmentTodosListBinding.inflate(inflater, container, false)
+        .let {
+            if (container != null) {
+                vm.fetchTodos(args.userId)
+
+                val adapter = TodoAdapter()
+                it.todosList.adapter = adapter
+                vm.userTodos.observe(viewLifecycleOwner) { todos ->
+                    Log.i("Todos#${args.userId}", "$todos")
+                    adapter.submitList(todos)
                 }
-                it.root
             }
-    }
+            it.root
+        }
 }

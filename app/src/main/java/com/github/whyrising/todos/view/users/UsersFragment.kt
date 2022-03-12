@@ -23,6 +23,11 @@ import kotlinx.coroutines.launch
 class UsersFragment : Fragment() {
     private val vm: UsersViewModel by activityViewModels { VmFactory }
 
+    private fun navHostFragment(): NavHostFragment {
+        return childFragmentManager.findFragmentById(R.id.todos_pane)
+            as NavHostFragment
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -32,19 +37,14 @@ class UsersFragment : Fragment() {
             if (container == null) return@let it.root
 
             it.slidingPaneLayout.lockMode = LOCK_MODE_LOCKED
+
             // Navigate when a new user selected.
             viewLifecycleOwner.lifecycleScope.launch {
                 viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                     launch {
-                        vm.showUserTodosEvents.collect { userId ->
-                            val todosPaneNavController =
-                                (childFragmentManager.findFragmentById(
-                                    R.id.todos_pane
-                                ) as NavHostFragment).navController
-
-                            val directions =
-                                UserTodosGraphDirections.toUserTodos(userId)
-                            todosPaneNavController.navigate(directions)
+                        vm.showUserTodosEvents.collect { uId ->
+                            val to = UserTodosGraphDirections.toUserTodos(uId)
+                            navHostFragment().navController.navigate(to)
                             it.slidingPaneLayout.open()
                         }
                     }
@@ -72,7 +72,8 @@ class TwoPaneOnBackPressedCallback(
     private val slidingPaneLayout: SlidingPaneLayout
 ) : OnBackPressedCallback(
     slidingPaneLayout.isSlideable && slidingPaneLayout.isOpen
-), SlidingPaneLayout.PanelSlideListener {
+),
+    SlidingPaneLayout.PanelSlideListener {
     init {
         slidingPaneLayout.addPanelSlideListener(this)
     }
