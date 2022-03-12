@@ -33,8 +33,10 @@ object GatewayMock : UsersGateway {
         return USERS
     }
 
-    override suspend fun todosBy(user: User): List<Todo> {
-        delay(500)
+    override suspend fun todosBy(
+        userId: String
+    ): List<Todo> {
+        delay(1000)
         return TODOS
     }
 }

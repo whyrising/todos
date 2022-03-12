@@ -71,15 +71,16 @@ dependencies {
     implementation Libs.Androidx.Lifecycle.vmSavedState
     implementation Libs.Androidx.Lifecycle.common
 
-//    implementation Libs.Coroutines.core
-//    implementation Libs.Coroutines.android
+    implementation Libs.Coroutines.core
+    implementation Libs.Coroutines.android
 
     implementation Libs.Kotlinx.atomicfu
 
     implementation Libs.Androidx.Navigation.fragment
     implementation Libs.Androidx.Navigation.ui
     implementation Libs.Androidx.Navigation.feature
-    implementation 'com.google.android.material:material:1.5.0'
+
+    implementation Libs.Androidx.SlidingPaneLayout.spl
 
     testImplementation Libs.Kotest.runner
     androidTestImplementation(Libs.Kotest.runner) {

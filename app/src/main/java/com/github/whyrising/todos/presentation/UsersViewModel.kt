@@ -1,14 +1,22 @@
 package com.github.whyrising.todos.presentation
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
+import androidx.lifecycle.viewModelScope
 import com.github.whyrising.todos.gateway.UsersGateway
 import kotlinx.atomicfu.atomic
 import kotlinx.atomicfu.update
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.launch
 
-class UsersViewModel(gateway: UsersGateway) : ViewModel() {
-    private var selectedUser = atomic<UserViewModel?>(null)
+class UsersViewModel(private val gateway: UsersGateway) : ViewModel() {
+    private val showUserTodosChannel = Channel<String>(Channel.CONFLATED)
+    val showUserTodosEvents = showUserTodosChannel.receiveAsFlow()
+
+    private val _selectedUserId = atomic<String?>(null)
 
     val users: LiveData<List<UserViewModel>> by lazy {
         liveData {
@@ -16,28 +24,25 @@ class UsersViewModel(gateway: UsersGateway) : ViewModel() {
         }
     }
 
-    val userTodos: LiveData<List<TodoViewModel>> by lazy {
-        liveData {
-            val selected = selectedUser.value
-            var atomicityFlag = true
-            while (atomicityFlag) {
-                val todos = when (selected) {
-                    null -> listOf()
-                    else -> gateway.todosBy(selected.user).map {
-                        TodoViewModel(it)
-                    }
-                }
-                if (selectedUser.value == selected) {
-                    emit(todos)
-                    atomicityFlag = false
-                }
+    private val _userTodos = MutableLiveData<List<TodoViewModel>>(listOf())
+    val userTodos: LiveData<List<TodoViewModel>> = _userTodos
+
+    fun showUserTodos(userId: String) {
+        _selectedUserId.update {
+            val isNewUser = it != userId
+            if (isNewUser) {
+                _userTodos.postValue(listOf())
+                showUserTodosChannel.trySend(userId)
             }
+            userId
         }
     }
 
-    fun setSelectedUser(userViewModel: UserViewModel) {
-        selectedUser.update {
-            if (it != userViewModel) userViewModel else it
+    fun fetchTodos(userId: String) {
+        viewModelScope.launch {
+            gateway.todosBy(userId)
+                .map { TodoViewModel(it) }
+                .let { todos -> _userTodos.value = todos }
         }
     }
 }

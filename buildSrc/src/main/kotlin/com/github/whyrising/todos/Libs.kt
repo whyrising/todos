@@ -67,6 +67,12 @@ object Libs {
             const val recycler = "androidx.recyclerview:recyclerview:$version"
         }
 
+        object SlidingPaneLayout {
+            private const val version = "1.2.0"
+            const val spl =
+                "androidx.slidingpanelayout:slidingpanelayout:$version"
+        }
+
         object Test {
             private const val version = "1.4.0"
             const val core = "androidx.test:core:$version"
