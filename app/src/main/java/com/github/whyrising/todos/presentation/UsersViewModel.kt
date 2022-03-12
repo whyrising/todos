@@ -23,14 +23,14 @@ class UsersViewModel(private val gateway: UsersGateway) : ViewModel() {
 
     val users: LiveData<List<UserViewModel>> by lazy {
         liveData {
-            val map: List<UserViewModel> =
+            val users: List<UserViewModel> =
                 try {
                     gateway.users().map { UserViewModel(it) }
                 } catch (e: GatewayUnavailable) {
                     // TODO: Notify user no connection
                     listOf()
                 }
-            emit(map)
+            emit(users)
         }
     }
 
@@ -48,12 +48,14 @@ class UsersViewModel(private val gateway: UsersGateway) : ViewModel() {
 
     fun fetchTodos(userId: String) {
         viewModelScope.launch {
-            gateway.todosBy(userId)
-                .map { TodoViewModel(it) }
-                .let { todos ->
-                    delay(150)
-                    _userTodos.value = todos
-                }
+            val todos = try {
+                gateway.todosBy(userId).map { TodoViewModel(it) }
+            } catch (e: GatewayUnavailable) {
+                // TODO: Notify user no connection
+                listOf()
+            }
+            delay(150)
+            _userTodos.value = todos
         }
     }
 }

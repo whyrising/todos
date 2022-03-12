@@ -16,6 +16,7 @@ import java.net.UnknownHostException
 object HttpGateway : UsersGateway {
     private const val baseAddress = "https://jsonplaceholder.typicode.com"
     private const val usersApi = "/users"
+    private fun todosApi(userId: String) = "/todos?userId=$userId"
 
     private val kotlinxSerializer = KotlinxSerializer(
         Json {
@@ -24,22 +25,23 @@ object HttpGateway : UsersGateway {
         }
     )
 
-    override suspend fun users(): List<User> {
-        val client = HttpClient(Android) {
-            install(JsonFeature) {
-                serializer = kotlinxSerializer
-            }
-        }
-        try {
-            return client.get("$baseAddress$usersApi")
-        } catch (e: UnknownHostException) {
-            Log.e("Error", "$e")
-            throw GatewayUnavailable()
+    private val httpClient = HttpClient(Android) {
+        install(JsonFeature) {
+            serializer = kotlinxSerializer
         }
     }
 
-    override suspend fun todosBy(userId: String): List<Todo> {
-//        TODO("Not yet implemented")
-        return listOf()
+    override suspend fun users(): List<User> = try {
+        httpClient.get("$baseAddress$usersApi")
+    } catch (e: UnknownHostException) {
+        Log.e("Error", "$e")
+        throw GatewayUnavailable()
+    }
+
+    override suspend fun todosBy(userId: String): List<Todo> = try {
+        httpClient.get("$baseAddress${todosApi(userId)}")
+    } catch (e: UnknownHostException) {
+        Log.e("Error", "$e")
+        throw GatewayUnavailable()
     }
 }
