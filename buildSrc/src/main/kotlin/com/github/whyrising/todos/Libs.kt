@@ -105,6 +105,13 @@ object Libs {
         const val atomicfu = "org.jetbrains.kotlinx:atomicfu:$version"
     }
 
+    object Ktor {
+        const val version = "1.6.7"
+        const val clientCore = "io.ktor:ktor-client-core:$version"
+        const val engine = "io.ktor:ktor-client-android:$version"
+        const val serialization = "io.ktor:ktor-client-serialization:$version"
+    }
+
     object Material {
         private const val version = "1.5.0"
         const val material = "com.google.android.material:material:$version"

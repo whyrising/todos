@@ -5,22 +5,32 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
-import com.github.whyrising.todos.gateway.UsersGateway
+import com.github.whyrising.todos.core.GatewayUnavailable
+import com.github.whyrising.todos.core.UsersGateway
 import kotlinx.atomicfu.atomic
 import kotlinx.atomicfu.update
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
 class UsersViewModel(private val gateway: UsersGateway) : ViewModel() {
-    private val showUserTodosChannel = Channel<String>(Channel.CONFLATED)
+    private val showUserTodosChannel =
+        Channel<Pair<String, Boolean>>(Channel.CONFLATED)
     val showUserTodosEvents = showUserTodosChannel.receiveAsFlow()
 
     private val _selectedUserId = atomic<String?>(null)
 
     val users: LiveData<List<UserViewModel>> by lazy {
         liveData {
-            emit(gateway.users().map { UserViewModel(it) })
+            val users: List<UserViewModel> =
+                try {
+                    gateway.users().map { UserViewModel(it) }
+                } catch (e: GatewayUnavailable) {
+                    // TODO: Notify user no connection
+                    listOf()
+                }
+            emit(users)
         }
     }
 
@@ -30,19 +40,22 @@ class UsersViewModel(private val gateway: UsersGateway) : ViewModel() {
     fun showUserTodos(userId: String) {
         _selectedUserId.update {
             val isNewUser = it != userId
-            if (isNewUser) {
-                _userTodos.postValue(listOf())
-                showUserTodosChannel.trySend(userId)
-            }
+            if (isNewUser) _userTodos.postValue(listOf())
+            showUserTodosChannel.trySend(userId to isNewUser)
             userId
         }
     }
 
     fun fetchTodos(userId: String) {
         viewModelScope.launch {
-            gateway.todosBy(userId)
-                .map { TodoViewModel(it) }
-                .let { todos -> _userTodos.value = todos }
+            val todos = try {
+                gateway.todosBy(userId).map { TodoViewModel(it) }
+            } catch (e: GatewayUnavailable) {
+                // TODO: Notify user no connection
+                listOf()
+            }
+            delay(150)
+            _userTodos.value = todos
         }
     }
 }

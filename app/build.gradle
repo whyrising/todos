@@ -5,6 +5,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'org.jetbrains.kotlin.kapt'
     id 'androidx.navigation.safeargs.kotlin'
+    id 'org.jetbrains.kotlin.plugin.serialization'
 }
 
 android {
@@ -81,6 +82,10 @@ dependencies {
     implementation Libs.Androidx.Navigation.feature
 
     implementation Libs.Androidx.SlidingPaneLayout.spl
+
+    implementation Libs.Ktor.clientCore
+    implementation Libs.Ktor.engine
+    implementation Libs.Ktor.serialization
 
     testImplementation Libs.Kotest.runner
     androidTestImplementation(Libs.Kotest.runner) {

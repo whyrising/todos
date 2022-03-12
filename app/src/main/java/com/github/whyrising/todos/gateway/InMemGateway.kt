@@ -1,8 +1,11 @@
 package com.github.whyrising.todos.gateway
 
+import com.github.whyrising.todos.core.Todo
+import com.github.whyrising.todos.core.User
+import com.github.whyrising.todos.core.UsersGateway
 import kotlinx.coroutines.delay
 
-object GatewayMock : UsersGateway {
+object InMemGateway : UsersGateway {
     private val USERS: MutableList<User> = ArrayList()
     private val TODOS: MutableList<Todo> = ArrayList()
     private const val COUNT = 25

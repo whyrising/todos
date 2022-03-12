@@ -1,4 +1,6 @@
-package com.github.whyrising.todos.gateway
+package com.github.whyrising.todos.core
+
+class GatewayUnavailable : RuntimeException()
 
 interface UsersGateway {
     suspend fun users(): List<User>

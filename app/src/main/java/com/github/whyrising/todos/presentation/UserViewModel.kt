@@ -1,6 +1,6 @@
 package com.github.whyrising.todos.presentation
 
-import com.github.whyrising.todos.gateway.User
+import com.github.whyrising.todos.core.User
 
 data class UserViewModel(val user: User) {
     val id: String = user.id
