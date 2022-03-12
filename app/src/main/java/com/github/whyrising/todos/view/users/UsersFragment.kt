@@ -42,9 +42,12 @@ class UsersFragment : Fragment() {
             viewLifecycleOwner.lifecycleScope.launch {
                 viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                     launch {
-                        vm.showUserTodosEvents.collect { uId ->
-                            val to = UserTodosGraphDirections.toUserTodos(uId)
-                            navHostFragment().navController.navigate(to)
+                        vm.showUserTodosEvents.collect { (userId, flag) ->
+                            if (flag) {
+                                val to =
+                                    UserTodosGraphDirections.toUserTodos(userId)
+                                navHostFragment().navController.navigate(to)
+                            }
                             it.slidingPaneLayout.open()
                         }
                     }

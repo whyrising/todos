@@ -10,11 +10,13 @@ import com.github.whyrising.todos.core.UsersGateway
 import kotlinx.atomicfu.atomic
 import kotlinx.atomicfu.update
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
 class UsersViewModel(private val gateway: UsersGateway) : ViewModel() {
-    private val showUserTodosChannel = Channel<String>(Channel.CONFLATED)
+    private val showUserTodosChannel =
+        Channel<Pair<String, Boolean>>(Channel.CONFLATED)
     val showUserTodosEvents = showUserTodosChannel.receiveAsFlow()
 
     private val _selectedUserId = atomic<String?>(null)
@@ -38,10 +40,8 @@ class UsersViewModel(private val gateway: UsersGateway) : ViewModel() {
     fun showUserTodos(userId: String) {
         _selectedUserId.update {
             val isNewUser = it != userId
-            if (isNewUser) {
-                _userTodos.postValue(listOf())
-                showUserTodosChannel.trySend(userId)
-            }
+            if (isNewUser) _userTodos.postValue(listOf())
+            showUserTodosChannel.trySend(userId to isNewUser)
             userId
         }
     }
@@ -50,7 +50,10 @@ class UsersViewModel(private val gateway: UsersGateway) : ViewModel() {
         viewModelScope.launch {
             gateway.todosBy(userId)
                 .map { TodoViewModel(it) }
-                .let { todos -> _userTodos.value = todos }
+                .let { todos ->
+                    delay(150)
+                    _userTodos.value = todos
+                }
         }
     }
 }
