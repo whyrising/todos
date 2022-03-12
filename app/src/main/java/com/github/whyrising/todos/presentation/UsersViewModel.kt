@@ -5,7 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
-import com.github.whyrising.todos.gateway.UsersGateway
+import com.github.whyrising.todos.core.GatewayUnavailable
+import com.github.whyrising.todos.core.UsersGateway
 import kotlinx.atomicfu.atomic
 import kotlinx.atomicfu.update
 import kotlinx.coroutines.channels.Channel
@@ -20,7 +21,14 @@ class UsersViewModel(private val gateway: UsersGateway) : ViewModel() {
 
     val users: LiveData<List<UserViewModel>> by lazy {
         liveData {
-            emit(gateway.users().map { UserViewModel(it) })
+            val map: List<UserViewModel> =
+                try {
+                    gateway.users().map { UserViewModel(it) }
+                } catch (e: GatewayUnavailable) {
+                    // TODO: Notify user no connection
+                    listOf()
+                }
+            emit(map)
         }
     }
 
