@@ -13,7 +13,9 @@ import com.github.whyrising.todos.presentation.UsersViewModel
 import com.github.whyrising.todos.view.VmFactory
 
 class TodosFragment : Fragment() {
-    private val vm: UsersViewModel by activityViewModels { VmFactory }
+    private val vm: UsersViewModel by activityViewModels {
+        VmFactory(requireContext())
+    }
     private val args: TodosFragmentArgs by navArgs()
 
     override fun onCreateView(

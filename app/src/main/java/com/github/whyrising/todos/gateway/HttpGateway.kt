@@ -10,13 +10,16 @@ import io.ktor.client.engine.android.Android
 import io.ktor.client.features.json.JsonFeature
 import io.ktor.client.features.json.serializer.KotlinxSerializer
 import io.ktor.client.request.get
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
 import java.net.UnknownHostException
 
-object HttpGateway : UsersGateway {
-    private const val baseAddress = "https://jsonplaceholder.typicode.com"
-    private const val usersApi = "/users"
-    private fun todosApi(userId: String) = "/todos?userId=$userId"
+private const val baseAddress = "https://jsonplaceholder.typicode.com"
+private const val usersApi = "/users"
+private fun todosApi(userId: String) = "/todos?userId=$userId"
+
+class HttpGateway(private val userDao: UserDao) : UsersGateway {
 
     private val kotlinxSerializer = KotlinxSerializer(
         Json {
@@ -32,7 +35,11 @@ object HttpGateway : UsersGateway {
     }
 
     override suspend fun users(): List<User> = try {
-        httpClient.get("$baseAddress$usersApi")
+        val r = httpClient.get<List<User>>("$baseAddress$usersApi")
+        withContext(Dispatchers.IO) {
+            userDao.insertAll(r)
+        }
+        r
     } catch (e: UnknownHostException) {
         Log.e("Error", "$e")
         throw GatewayUnavailable()

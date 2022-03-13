@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
+import com.github.whyrising.todos.core.GatewayProvider
 import com.github.whyrising.todos.core.GatewayUnavailable
 import com.github.whyrising.todos.core.UsersGateway
 import kotlinx.atomicfu.atomic
@@ -14,7 +15,12 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
-class UsersViewModel(private val gateway: UsersGateway) : ViewModel() {
+class UsersViewModel(
+    private val gatewayProvider: GatewayProvider
+) : ViewModel() {
+    private val gateway: UsersGateway
+        get() = gatewayProvider.userGateway()
+
     private val showUserTodosChannel =
         Channel<Pair<String, Boolean>>(Channel.CONFLATED)
     val showUserTodosEvents = showUserTodosChannel.receiveAsFlow()
