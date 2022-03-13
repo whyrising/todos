@@ -13,9 +13,9 @@ import com.github.whyrising.todos.core.GatewayProvider
 import com.github.whyrising.todos.core.UsersGateway
 
 class GatewayProviderImpl(private val context: Context) : GatewayProvider {
-    private val userDao by lazy { AppDatabase.instance(context).userDao() }
-    private val httpGateway by lazy { HttpGateway(userDao) }
-    private val cacheGateway by lazy { CacheGateway(userDao) }
+    private val database = AppDatabase.instance(context)
+    private val httpGateway by lazy { HttpGateway(database) }
+    private val cacheGateway by lazy { CacheGateway(database) }
 
     private fun isOnline(): Boolean {
         val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE)

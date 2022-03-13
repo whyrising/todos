@@ -19,7 +19,7 @@ private const val baseAddress = "https://jsonplaceholder.typicode.com"
 private const val usersApi = "/users"
 private fun todosApi(userId: String) = "/todos?userId=$userId"
 
-class HttpGateway(private val userDao: UserDao) : UsersGateway {
+class HttpGateway(private val db: AppDatabase) : UsersGateway {
 
     private val kotlinxSerializer = KotlinxSerializer(
         Json {
@@ -37,7 +37,7 @@ class HttpGateway(private val userDao: UserDao) : UsersGateway {
     override suspend fun users(): List<User> = try {
         val r = httpClient.get<List<User>>("$baseAddress$usersApi")
         withContext(Dispatchers.IO) {
-            userDao.insertAll(r)
+            db.userDao().insertAll(r)
         }
         r
     } catch (e: UnknownHostException) {
@@ -46,7 +46,11 @@ class HttpGateway(private val userDao: UserDao) : UsersGateway {
     }
 
     override suspend fun todosBy(userId: String): List<Todo> = try {
-        httpClient.get("$baseAddress${todosApi(userId)}")
+        val r = httpClient.get<List<Todo>>("$baseAddress${todosApi(userId)}")
+        withContext(Dispatchers.IO) {
+            db.todosDao().insertAll(r)
+        }
+        r
     } catch (e: UnknownHostException) {
         Log.e("Error", "$e")
         throw GatewayUnavailable()
