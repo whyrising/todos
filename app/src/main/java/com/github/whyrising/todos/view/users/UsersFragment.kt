@@ -21,7 +21,9 @@ import com.github.whyrising.todos.view.VmFactory
 import kotlinx.coroutines.launch
 
 class UsersFragment : Fragment() {
-    private val vm: UsersViewModel by activityViewModels { VmFactory }
+    private val vm: UsersViewModel by activityViewModels {
+        VmFactory(requireContext())
+    }
 
     private fun navHostFragment(): NavHostFragment {
         return childFragmentManager.findFragmentById(R.id.todos_pane)

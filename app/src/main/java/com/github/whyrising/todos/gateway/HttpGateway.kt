@@ -10,13 +10,16 @@ import io.ktor.client.engine.android.Android
 import io.ktor.client.features.json.JsonFeature
 import io.ktor.client.features.json.serializer.KotlinxSerializer
 import io.ktor.client.request.get
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
 import java.net.UnknownHostException
 
-object HttpGateway : UsersGateway {
-    private const val baseAddress = "https://jsonplaceholder.typicode.com"
-    private const val usersApi = "/users"
-    private fun todosApi(userId: String) = "/todos?userId=$userId"
+private const val baseAddress = "https://jsonplaceholder.typicode.com"
+private const val usersApi = "/users"
+private fun todosApi(userId: String) = "/todos?userId=$userId"
+
+class HttpGateway(private val db: AppDatabase) : UsersGateway {
 
     private val kotlinxSerializer = KotlinxSerializer(
         Json {
@@ -32,14 +35,22 @@ object HttpGateway : UsersGateway {
     }
 
     override suspend fun users(): List<User> = try {
-        httpClient.get("$baseAddress$usersApi")
+        val r = httpClient.get<List<User>>("$baseAddress$usersApi")
+        withContext(Dispatchers.IO) {
+            db.userDao().insertAll(r)
+        }
+        r
     } catch (e: UnknownHostException) {
         Log.e("Error", "$e")
         throw GatewayUnavailable()
     }
 
     override suspend fun todosBy(userId: String): List<Todo> = try {
-        httpClient.get("$baseAddress${todosApi(userId)}")
+        val r = httpClient.get<List<Todo>>("$baseAddress${todosApi(userId)}")
+        withContext(Dispatchers.IO) {
+            db.todosDao().insertAll(r)
+        }
+        r
     } catch (e: UnknownHostException) {
         Log.e("Error", "$e")
         throw GatewayUnavailable()

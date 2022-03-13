@@ -28,7 +28,8 @@ object InMemGateway : UsersGateway {
     private fun createPlaceholderTodo(index: Int): Todo = Todo(
         id = "$index",
         title = "task",
-        isCompleted = true
+        isCompleted = true,
+        userId = "1"
     )
 
     override suspend fun users(): List<User> {

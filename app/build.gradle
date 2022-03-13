@@ -87,6 +87,9 @@ dependencies {
     implementation Libs.Ktor.engine
     implementation Libs.Ktor.serialization
 
+    implementation Libs.Androidx.Room.runtime
+    kapt Libs.Androidx.Room.compiler
+
     testImplementation Libs.Kotest.runner
     androidTestImplementation(Libs.Kotest.runner) {
         exclude(module: "objenesis")

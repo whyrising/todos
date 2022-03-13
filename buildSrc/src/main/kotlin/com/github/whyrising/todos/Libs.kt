@@ -67,6 +67,13 @@ object Libs {
             const val recycler = "androidx.recyclerview:recyclerview:$version"
         }
 
+        object Room {
+            const val version = "2.4.2"
+
+            const val runtime = "androidx.room:room-runtime:$version"
+            const val compiler = "androidx.room:room-compiler:$version"
+        }
+
         object SlidingPaneLayout {
             private const val version = "1.2.0"
             const val spl =
