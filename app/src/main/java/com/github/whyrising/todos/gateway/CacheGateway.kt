@@ -14,16 +14,14 @@ import com.github.whyrising.todos.core.User
 import com.github.whyrising.todos.core.UsersGateway
 import kotlinx.atomicfu.atomic
 import kotlinx.atomicfu.updateAndGet
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 
 @Dao
 interface UserDao {
     @Query("SELECT * FROM User")
-    fun getAll(): List<User>
+    suspend fun getAll(): List<User>
 
     @Insert(onConflict = REPLACE)
-    fun insertAll(users: List<User>)
+    suspend fun insertAll(users: List<User>)
 }
 
 @Dao
@@ -34,10 +32,10 @@ interface TodoDao {
             "INNER JOIN user ON user.id = todo.userId " +
             "WHERE user.id= :userId"
     )
-    fun getTodosBy(userId: String): List<Todo>
+    suspend fun getTodosBy(userId: String): List<Todo>
 
     @Insert(onConflict = REPLACE)
-    fun insertAll(todo: List<Todo>)
+    suspend fun insertAll(todo: List<Todo>)
 }
 
 @Database(entities = [User::class, Todo::class], version = 1)
@@ -61,15 +59,8 @@ abstract class AppDatabase : RoomDatabase() {
 }
 
 class CacheGateway(private val db: AppDatabase) : UsersGateway {
-    override suspend fun users(): List<User> {
-        return withContext(Dispatchers.IO) {
-            db.userDao().getAll()
-        }
-    }
+    override suspend fun users(): List<User> = db.userDao().getAll()
 
-    override suspend fun todosBy(userId: String): List<Todo> {
-        return withContext(Dispatchers.IO) {
-            db.todosDao().getTodosBy(userId)
-        }
-    }
+    override suspend fun todosBy(userId: String): List<Todo> =
+        db.todosDao().getTodosBy(userId)
 }

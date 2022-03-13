@@ -10,8 +10,6 @@ import io.ktor.client.engine.android.Android
 import io.ktor.client.features.json.JsonFeature
 import io.ktor.client.features.json.serializer.KotlinxSerializer
 import io.ktor.client.request.get
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
 import java.net.UnknownHostException
 
@@ -36,9 +34,7 @@ class HttpGateway(private val db: AppDatabase) : UsersGateway {
 
     override suspend fun users(): List<User> = try {
         val r = httpClient.get<List<User>>("$baseAddress$usersApi")
-        withContext(Dispatchers.IO) {
-            db.userDao().insertAll(r)
-        }
+        db.userDao().insertAll(r)
         r
     } catch (e: UnknownHostException) {
         Log.e("Error", "$e")
@@ -47,9 +43,7 @@ class HttpGateway(private val db: AppDatabase) : UsersGateway {
 
     override suspend fun todosBy(userId: String): List<Todo> = try {
         val r = httpClient.get<List<Todo>>("$baseAddress${todosApi(userId)}")
-        withContext(Dispatchers.IO) {
-            db.todosDao().insertAll(r)
-        }
+        db.todosDao().insertAll(r)
         r
     } catch (e: UnknownHostException) {
         Log.e("Error", "$e")

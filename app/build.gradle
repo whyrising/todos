@@ -88,6 +88,7 @@ dependencies {
     implementation Libs.Ktor.serialization
 
     implementation Libs.Androidx.Room.runtime
+    implementation Libs.Androidx.Room.ktx
     kapt Libs.Androidx.Room.compiler
 
     testImplementation Libs.Kotest.runner
