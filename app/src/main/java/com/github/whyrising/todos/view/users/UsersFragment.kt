@@ -40,7 +40,7 @@ class UsersFragment : Fragment() {
 
             it.slidingPaneLayout.lockMode = LOCK_MODE_LOCKED
 
-            // Navigate when a new user selected.
+            // Navigate when a new user is selected.
             viewLifecycleOwner.lifecycleScope.launch {
                 viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                     launch {

@@ -12,11 +12,19 @@ import android.os.Build
 import com.github.whyrising.todos.core.GatewayProvider
 import com.github.whyrising.todos.core.UsersGateway
 
+/**
+ * A factory that returns an instance of [UsersGateway] based on the network
+ * connectivity status.
+ */
 class GatewayProviderImpl(private val context: Context) : GatewayProvider {
     private val database = AppDatabase.instance(context)
     private val httpGateway by lazy { HttpGateway(database) }
     private val cacheGateway by lazy { CacheGateway(database) }
 
+    /**
+     * @return a boolean that indicates if the device is connected to the
+     * network.
+     */
     private fun isOnline(): Boolean {
         val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE)
             as ConnectivityManager
@@ -38,6 +46,10 @@ class GatewayProviderImpl(private val context: Context) : GatewayProvider {
         }
     }
 
+    /**
+     * @return an [HttpGateway] if the device is connected to the internet.
+     * Otherwise, it returns the [CacheGateway].
+     */
     override fun userGateway(): UsersGateway = when {
         isOnline() -> httpGateway
         else -> cacheGateway

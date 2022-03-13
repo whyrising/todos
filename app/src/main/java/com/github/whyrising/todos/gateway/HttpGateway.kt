@@ -20,6 +20,18 @@ private const val baseAddress = "https://jsonplaceholder.typicode.com"
 private const val usersApi = "/users"
 private fun todosApi(userId: String) = "/todos?userId=$userId"
 
+/*
+ * The [GlobalScope] may not be the best way of running the cache, since the
+ * WorkManager is more suited for persistent work. However, passing lists of
+ * complex data to the WorkManager -to be cached- is fairly challenging, since
+ * that data needs to be serialized before being passed and deserialized after
+ * it's received to be saved in the database.
+ */
+/**
+ * The http gateway for fetching data from a RestAPI.
+ *
+ * It also caches the fetched data asynchronously using the [GlobalScope].
+ */
 class HttpGateway(private val db: AppDatabase) : UsersGateway {
     private val kotlinxSerializer = KotlinxSerializer(
         Json {
